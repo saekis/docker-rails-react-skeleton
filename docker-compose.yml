@@ -1,0 +1,51 @@
+version: '2'
+services:
+  # server:
+  #   build: ./docker/nginx
+  #   ports:
+  #     - '80:80'
+  #   depends_on:
+  #     - web
+  #   links:
+  #     - web
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+  rails:
+    build:
+      context: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./app:/app/app
+      - ./bin:/app/bin
+      - ./config:/app/config
+      - ./config.ru:/app/config.ru
+      - ./db:/app/db
+      - ./Gemfile:/app/Gemfile
+      - ./Gemfile.lock:/app/Gemfile.lock
+      - ./lib:/app/lib
+      - ./log:/app/log
+      - ./public:/app/public
+      - ./Rakefile:/app/Rakefile
+      - ./scripts:/app/scripts
+      - bundle:/bundle
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASS=root
+      - DB_NAME=myapp_development:$PATH
+volumes:
+  mysql-data:
+  bundle:
