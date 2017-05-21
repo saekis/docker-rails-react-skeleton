@@ -10,6 +10,7 @@ services:
   #     - web
   mysql:
     image: mysql:5.7
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
     ports:
@@ -19,7 +20,9 @@ services:
   rails:
     build:
       context: .
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+      dockerfile: ./docker/rails/Dockerfile
+    # command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: bundle exec unicorn -c config/unicorn.rb -p 3000
     ports:
       - '3000:3000'
     volumes:
@@ -39,13 +42,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
     depends_on:
       - mysql
-    links:
-      - mysql
     environment:
       - DB_HOST=mysql
       - DB_USER=root
       - DB_PASS=root
       - DB_NAME=myapp_development:$PATH
+    restart: always
 volumes:
   mysql-data:
   bundle:
