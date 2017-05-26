@@ -17,6 +17,15 @@ services:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+  node:
+    build:
+      context: ./
+      dockerfile: ./docker/node/Dockerfile
+    volumes:
+      - ./package.json:/app/package.json
+      - ./public/assets:/app/public/assets
+      - ./yarn.lock:/app/yarn.lock
+      - node_modules:/app/node_modules
   rails:
     build:
       context: .
@@ -51,3 +60,4 @@ services:
 volumes:
   mysql-data:
   bundle:
+  node_modules:
