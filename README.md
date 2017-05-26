@@ -1,3 +1,6 @@
 # docker rails react skeleton
-docker-compose + rails + nginx + unicorn + react
+docker-compose + rails + mysql + nginx + unicorn + redis + react
 
+## TODO
+- Nginx
+- Redis
