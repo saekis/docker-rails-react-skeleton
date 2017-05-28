@@ -3,4 +3,3 @@ docker-compose + rails + mysql + nginx + unicorn + redis + react
 
 ## TODO
 - Nginx
-- Redis
