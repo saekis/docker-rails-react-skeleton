@@ -1,8 +1,9 @@
 # docker rails react skeleton
-docker-compose + rails + mysql + nginx + unicorn + redis + react
+docker-compose + rails + mysql + nginx + unicorn + redis + sidekiq + react
 
 ## TODO
 - Nginx
+- Sidekiq
 
 ## Installation & Setup
 ```

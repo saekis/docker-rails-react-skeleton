@@ -34,10 +34,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/rails/Dockerfile
-    # command: bundle exec rails s -p 3000 -b '0.0.0.0'
     command: bundle exec unicorn -c config/unicorn.rb -p 3000
-    ports:
-      - '3000:3000'
     volumes:
       - ./app:/app/app
       - ./bin:/app/bin
@@ -53,14 +50,27 @@ services:
       - ./scripts:/app/scripts
       - bundle:/bundle
       - /etc/localtime:/etc/localtime:ro
-    depends_on:
-      - mysql
     environment:
       - DB_HOST=mysql
       - DB_USER=root
       - DB_PASS=root
       - DB_NAME=myapp_development:$PATH
+    ports:
+      - '3000:3000'
+    links:
+      - mysql
+      - redis
     restart: always
+  worker:
+    build:
+      context: .
+      dockerfile: ./docker/rails/Dockerfile
+    command: bundle exec sidekiq
+    volumes_from:
+      - rails
+    links:
+      - mysql
+      - redis
 volumes:
   mysql-data:
   bundle:
