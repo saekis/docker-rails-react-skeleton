@@ -3,7 +3,6 @@ docker-compose + rails + mysql + nginx + unicorn + redis + sidekiq + react
 
 ## TODO
 - Nginx
-- Sidekiq
 
 ## Installation & Setup
 ```
